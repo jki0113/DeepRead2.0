@@ -1,0 +1,41 @@
+FROM ubuntu:22.04
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+    wget \
+    curl \
+    git \
+    tzdata \
+    build-essential \
+    gcc && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y libreoffice
+
+RUN apt-get update && apt-get install -y openjdk-11-jre-headless && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN ln -fs /usr/share/zoneinfo/Asia/Seoul /etc/localtime && \
+    dpkg-reconfigure --frontend noninteractive tzdata
+
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh && \
+    bash miniconda.sh -b -p /miniconda && \
+    rm miniconda.sh
+
+ENV PATH /miniconda/bin:$PATH
+
+RUN conda create --name deepread python=3.9 -y
+RUN conda init bash && echo "conda activate deepread" >> ~/.bashrc
+
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt-get update && apt-get install -y nodejs
+
+RUN apt-get install -f
+
+RUN npm install pm2 -g
+
+WORKDIR /home/deepread2.0
+
+COPY . .
+
+CMD ["/bin/bash"]

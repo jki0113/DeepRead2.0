@@ -1,0 +1,20 @@
+version: '3'
+services:
+  deepread:
+    build:
+      context: /home/ubuntu/DeepRead2.0
+      dockerfile: Dockerfile_x86
+    command: tail -f /dev/null
+    container_name: deepread_container
+    image: deepread2.0
+    ports:
+      - "8000:8000"
+      - "8080:8080"
+      - "8501:8501"
+    volumes:
+     - /home/deepread2.0/log/:/home/deepread2.0/log/ # mount logger folder
+     - /home/deepread2.0/assets/journal_img/:/home/deepread2.0/assets/journal_img/ # mount journal image folder
+     - /home/deepread2.0/storage/:/home/deepread2.0/storage/ # mount storage folder
+     - /home/deepread2.0_dev/log/:/home/deepread2.0_dev/log/ # mount logger folder
+     - /home/deepread2.0_dev/assets/journal_img/:/home/deepread2.0_dev/assets/journal_img/ # mount journal image folder
+     - /home/deepread2.0_dev/storage/:/home/deepread2.0_dev/storage/ # mount storage folder

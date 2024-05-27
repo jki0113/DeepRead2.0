@@ -1,0 +1,20 @@
+# Python cache files and directories
+__pycache__/
+*.pyc
+.env*
+
+# Temporary directory
+tmp/
+
+# storage chatting history
+storage/dev/*
+storage/prod/*
+!storage/dev/.gitkeep
+!storage/prod/.gitkeep
+*.log
+
+# assets (.png files)
+assets/journal_img/*
+!assets/journal_img/no_img.png
+assets/journal_data/*
+!.gitkeep

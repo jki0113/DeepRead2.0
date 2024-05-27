@@ -1,0 +1,18 @@
+version: '3'
+services:
+  deepread:
+    build:
+      context: <YOUR_DEEPREAD_ROOT_PATH>
+      dockerfile: <YOUR_SYSTEM_ARCHITECTURE>
+    command: tail -f /dev/null
+    container_name: deepread_container
+    image: deepread2.0
+    ports:
+      - "8000:8000"
+      - "8080:8080"
+      - "8501:8501"
+    # Applies only when executed on the deployment server.  
+    # volumes:
+    #  - /home/deepread2.0/log/:/home/deepread2.0/log/ # mount logger folder
+    #  - /home/deepread2.0/assets/journal_img/:/home/deepread2.0/assets/journal_img/ # mount journal image folder
+    #  - /home/deepread2.0/storage/:/home/deepread2.0/storage/ # mount storage folder
