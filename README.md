@@ -1,12 +1,20 @@
 # DeepRead2.0  
 
-### Overview
+## Table of Contents
+
+- [Introduction](#introduction)
+- [How to Run](#how-to-run)
+   - [Local](#local)
+   - [Deploy Server](#deploy-server)
+- [File Tree](#file-tree)
+
+## Introduction
 - 저널랩의 DeepRead2.0은 논문 분석 및 챗봇 시스템 입니다.
-- DeepRead1.0에서는 사용자에게 논문의 초록을 입력하면 번역, 문법 검사, 제목, 키워드, 요약, 관련 논문 추천, 관련 저널 추천 등의 기능을 제공합니다.
-- 기존의 방식과 조금 다른 점이라면 서비스 배포에 Docker를 활용하였습니다.
+- 유저가 논문을 업로드하면 제목, 요약, 연구 방법론 등을 분석합니다.
+- 챗봇을 통해 정해진 항목에 대한 분석 뿐만 아니라 유저가 실시간으로 채팅을 하며 대화할 수 있습니다.
+- 또한 챗봇의 드래그 기능을 활용하여 웹 검색, 용어 검색, 부분 요약, 번역 등의 기능이 있습니다.
 ---
-### How to Run
-- GitHub에서 개인 액세스 토큰을 생성하세요 (조직에 등록되어 있다면, 액세스 토큰을 통해 자동으로 접근할 수 있습니다).  
+## How to Run
 `git clone https://github.com/LexcodeHQ/DeepRead2.0.git`  
 `cd DeepRead2.0`  
 
@@ -67,54 +75,54 @@
    SURVEY_SATISFACTION_V2_Q2 = 'SQ_240117_002'
    ```  
 
-### Local
+   ### Local
 
-- 환경에 맞게 도커 컴포즈 파일을 구성하세요. (docker-compose.dev.yml)
-   ```
-   version: '3'
-   services:
-   deepread:
-      build:
-         context: <YOUR_DEEPREAD_ROOT_PATH>
-         dockerfile: <YOUR_SYSTEM_ARCHITECTURE_DOCKERFILE>
-      command: tail -f /dev/null
-      container_name: deepread_container
-      image: deepread2.0
-      ports:
-         - "8000:8000"
-         - "8080:8080"
-         - "8501:8501"
-   ```
-   
-- 컴포즈 파일을 사용하여 도커 환경을 구축하세요.  
-`docker-compose -f docker-compose.dev.yml up -d --build`  
+   - 환경에 맞게 도커 컴포즈 파일을 구성하세요. (docker-compose.dev.yml)
+      ```
+      version: '3'
+      services:
+      deepread:
+         build:
+            context: <YOUR_DEEPREAD_ROOT_PATH>
+            dockerfile: <YOUR_SYSTEM_ARCHITECTURE_DOCKERFILE>
+         command: tail -f /dev/null
+         container_name: deepread_container
+         image: deepread2.0
+         ports:
+            - "8000:8000"
+            - "8080:8080"
+            - "8501:8501"
+      ```
+      
+   - 컴포즈 파일을 사용하여 도커 환경을 구축하세요.  
+   `docker-compose -f docker-compose.dev.yml up -d --build`  
 
-- 종속성을 설치하고 백엔드 FastAPI 서버를 실행하세요 (localhost:8000)  
-`docker exec -it deepread_container /bin/bash`  
-`pip install -r requirements.txt`  
-`pm2 start main_dev.py --name backend --max-memory-restart 6000M --interpreter python --log-date-format "YYYY-MM-DD HH:mm:ss" --log /home/deepread2.0/log/sys.log`  
-   
-- (사용 중단) 다른 터미널에서 프론트엔드 Streamlit 서버를 실행하세요 (localhost:8080)  
-`docker exec -it deepread_container /bin/bash`  
-`cd web`  
-`streamlit run web.py`  
+   - 종속성을 설치하고 백엔드 FastAPI 서버를 실행하세요 (localhost:8000)  
+   `docker exec -it deepread_container /bin/bash`  
+   `pip install -r requirements.txt`  
+   `pm2 start main_dev.py --name backend --max-memory-restart 6000M --interpreter python --log-date-format "YYYY-MM-DD HH:mm:ss" --log /home/deepread2.0/log/sys.log`  
+      
+   - (사용 중단) 다른 터미널에서 프론트엔드 Streamlit 서버를 실행하세요 (localhost:8080)  
+   `docker exec -it deepread_container /bin/bash`  
+   `cd web`  
+   `streamlit run web.py`  
 
-### Deploy Server
+   ### Deploy Server
 
-- 컴포즈 파일을 사용하여 도커 환경을 구축하세요.  
-`docker-compose -f docker-compose.yml up -d --build`  
+   - 컴포즈 파일을 사용하여 도커 환경을 구축하세요.  
+   `docker-compose -f docker-compose.yml up -d --build`  
 
-- 종속성을 설치하세요  
-`pip install -r requirements.txt`  
+   - 종속성을 설치하세요  
+   `pip install -r requirements.txt`  
 
-- 백엔드 FastAPI 서버를 실행하세요 (localhost:8000)  
-`pm2 start main.py --name backend --max-memory-restart 6000M --interpreter python --log-date-format "YYYY-MM-DD HH:mm:ss" --log /home/deepread2.0/log/sys.log`  
-   
-- 로거를 실행하세요  
-`pm2 start log/hw_logger.py --name logger --interpreter python`  
+   - 백엔드 FastAPI 서버를 실행하세요 (localhost:8000)  
+   `pm2 start main.py --name backend --max-memory-restart 6000M --interpreter python --log-date-format "YYYY-MM-DD HH:mm:ss" --log /home/deepread2.0/log/sys.log`  
+      
+   - 로거를 실행하세요  
+   `pm2 start log/hw_logger.py --name logger --interpreter python`  
 ---
 
-### File Tree
+## File Tree
 
    ```
    /home/deepread2.0
